@@ -1,0 +1,150 @@
+HTML
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="estilos.css">
+  <title>Atendimento Online</title>
+</head>
+<body>
+  <div class="container-chat">
+    <div class="titulo-chat">Atendimento Online</div>
+    <div class="container-mensagens">
+      <div class="mensagem mensagem-atendente">
+        <div class="identificacao">Atendente</div>
+        <div class="conteudo">Olá! Como posso ajudar?</div>
+      </div>
+      <div class="mensagem mensagem-usuario">
+        <div class="identificacao">Você</div>
+        <div class="conteudo">Tenho uma pergunta sobre o produto.</div>
+      </div>
+      <!-- Adicione mais mensagens aqui -->
+    </div>
+    <div class="container-input">
+      <input type="text" class="campo-input" id="mensagemInput" placeholder="Digite sua mensagem">
+      <button class="botao-enviar">Enviar</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
+
+CSS
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f7f7f7;
+}
+
+.container-chat {
+  border: 1px solid #ccc;
+  max-width: 600px;
+  margin: 20px auto;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.titulo-chat {
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+  text-align: left;
+  font-weight: bold;
+  margin: 5px;
+  background-color: #f2f2f2;
+}
+
+.container-mensagens {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  max-height: 300px; /* Altura máxima do chat */
+  overflow-y: auto; /* Adiciona uma barra de rolagem quando o conteúdo ultrapassa a altura máxima */
+}
+
+.mensagem {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.identificacao {
+  font-weight: bold;
+}
+
+.conteudo {
+  margin-top: 5px;
+}
+
+.mensagem-usuario {
+  align-self: flex-end;
+  background-color: #007bff;
+  color: #fff;
+}
+
+.mensagem-atendente {
+  background-color: #f2f2f2;
+}
+
+.container-input {
+  display: flex;
+  margin-top: 20px;
+}
+
+.campo-input {
+  flex: 1;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px;
+  padding: 10px;
+}
+
+.botao-enviar {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.botao-enviar:hover {
+  background-color: #0056b3;
+}
+
+JavaScript
+document.addEventListener("DOMContentLoaded", function() {
+  const mensagemInput = document.getElementById("mensagemInput");
+  const containerMensagens = document.querySelector(".container-mensagens");
+  const botaoEnviar = document.querySelector(".botao-enviar");
+
+  function enviarMensagem() {
+    const mensagemTexto = mensagemInput.value.trim();
+    if (mensagemTexto !== "") {
+      const novaMensagemUsuario = document.createElement("div");
+      novaMensagemUsuario.classList.add("mensagem", "mensagem-usuario");
+      novaMensagemUsuario.innerHTML = `
+        <div class="identificacao">Você</div>
+        <div class="conteudo">${mensagemTexto}</div>
+      `;
+      containerMensagens.appendChild(novaMensagemUsuario);
+      mensagemInput.value = "";
+
+      // Rolar para a nova mensagem
+      containerMensagens.scrollTop = containerMensagens.scrollHeight;
+    }
+  }
+
+  botaoEnviar.addEventListener("click", enviarMensagem);
+
+  // Permitir o envio de mensagens ao pressionar Enter
+  mensagemInput.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Impede quebrar linha no campo de entrada
+      enviarMensagem();
+    }
+  });
+});
+
